@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Realizar Test Vocacional";
+    int estudianteId = (int)ViewBag.EstudianteId;
+}
+
+<h2>Realizar Test Vocacional</h2>
+
+<form asp-action="RealizarTest" method="post">
+    <input type="hidden" name="estudianteId" value="@estudianteId" />
+
+    <div class="form-group">
+        <label for="puntaje">Puntaje obtenido:</label>
+        <input type="number" name="puntaje" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="codigoResultado">Código del resultado:</label>
+        <input type="text" name="codigoResultado" class="form-control" required />
+        <small class="form-text text-muted">Ej: ARTE, CIENCIAS, SALUD, etc.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Enviar y Ver Resultados</button>
+</form>

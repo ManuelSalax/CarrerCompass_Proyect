@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CarrerCompass_Proyect.Domain.Entities.CarreraSugerida>
+@{
+    ViewData["Title"] = "Carreras Sugeridas";
+    var estudiante = ViewBag.Estudiante as CarrerCompass_Proyect.Domain.Entities.Estudiante;
+}
+
+<h2>Carreras Sugeridas para @estudiante.NombreCompleto</h2>
+
+@if (!Model.Any())
+{
+    <p>No se encontraron sugerencias. Verifica el código del test o contacta soporte.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Carrera</th>
+                <th>Área</th>
+                <th>Descripción</th>
+                <th>Puntaje</th>
+                <th>Salario Promedio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sugerencia in Model)
+            {
+                <tr>
+                    <td>@sugerencia.Carrera.Nombre</td>
+                    <td>@sugerencia.Carrera.Area</td>
+                    <td>@sugerencia.Carrera.Descripcion</td>
+                    <td>@sugerencia.Puntaje</td>
+                    <td>@sugerencia.Carrera.SalarioPromedio?.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
