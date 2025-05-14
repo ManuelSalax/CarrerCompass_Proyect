@@ -27,11 +27,17 @@ namespace CarrerCompass_Proyect.Application.Services
             return _repositorio.ObtenerTodos();
         }
 
-        public void RegistrarEstudiante(string nombre, string correo, DateTime fechaNacimiento)
+        public Estudiante RegistrarEstudiante(string nombre, string correo, DateTime fechaNacimiento)
         {
+            var existente = _repositorio.ObtenerPorCorreo(correo);
+            if (existente != null)
+                throw new Exception("Ya existe un estudiante registrado con ese correo.");
+
             var estudiante = new Estudiante(nombre, correo, fechaNacimiento);
             _repositorio.Guardar(estudiante);
+            return estudiante;
         }
+
     }
 }
 

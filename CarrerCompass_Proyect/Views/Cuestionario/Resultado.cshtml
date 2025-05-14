@@ -1,0 +1,39 @@
+﻿@model List<CarrerCompass_Proyect.Domain.Entities.Carrera>
+
+@{
+    ViewData["Title"] = "Carreras Sugeridas";
+    var estudianteNombre = ViewBag.EstudianteNombre as string;
+}
+
+<h2>Carreras sugeridas para @estudianteNombre</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">
+        <strong>Lo sentimos.</strong> No se encontraron coincidencias claras con tus respuestas.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Nombre de la carrera</th>
+                <th>Área</th>
+                <th>Descripción</th>
+                <th>Salario promedio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var carrera in Model)
+            {
+                <tr>
+                    <td>@carrera.Nombre</td>
+                    <td>@carrera.Area</td>
+                    <td>@carrera.Descripcion</td>
+                    <td>@(carrera.SalarioPromedio?.ToString("C") ?? "No disponible")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

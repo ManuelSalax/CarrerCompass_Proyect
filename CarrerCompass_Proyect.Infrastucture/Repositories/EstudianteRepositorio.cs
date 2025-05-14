@@ -2,11 +2,8 @@
 using CarrerCompass_Proyect.Domain.Interfaces;
 using CarrerCompass_Proyect.Infrastucture.DbData;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarrerCompass_Proyect.Infrastucture.Repositories
 {
@@ -22,7 +19,6 @@ namespace CarrerCompass_Proyect.Infrastucture.Repositories
         public Estudiante ObtenerPorId(int id)
         {
             return _context.Estudiantes
-                .Include(e => e.ResultadoTest)
                 .Include(e => e.CarrerasSugeridas)
                 .ThenInclude(cs => cs.Carrera)
                 .FirstOrDefault(e => e.Id == id);
@@ -31,7 +27,6 @@ namespace CarrerCompass_Proyect.Infrastucture.Repositories
         public Estudiante ObtenerPorCorreo(string correo)
         {
             return _context.Estudiantes
-                .Include(e => e.ResultadoTest)
                 .Include(e => e.CarrerasSugeridas)
                 .ThenInclude(cs => cs.Carrera)
                 .FirstOrDefault(e => e.CorreoElectronico == correo);
@@ -40,7 +35,6 @@ namespace CarrerCompass_Proyect.Infrastucture.Repositories
         public IEnumerable<Estudiante> ObtenerTodos()
         {
             return _context.Estudiantes
-                .Include(e => e.ResultadoTest)
                 .Include(e => e.CarrerasSugeridas)
                 .ThenInclude(cs => cs.Carrera)
                 .ToList();
@@ -68,5 +62,4 @@ namespace CarrerCompass_Proyect.Infrastucture.Repositories
             }
         }
     }
-
 }

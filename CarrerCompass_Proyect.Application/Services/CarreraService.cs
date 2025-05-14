@@ -35,7 +35,7 @@ namespace CarrerCompass_Proyect.Application.Services
             {
                 if (carrera.Area.Contains(codigoResultado, StringComparison.OrdinalIgnoreCase))
                 {
-                    var sugerencia = new CarreraSugerida(estudianteId, carrera, puntaje: 85);
+                    var sugerencia = new CarreraSugerida(estudianteId, carrera.Id, puntaje: 85);
                     _sugeridaRepo.Guardar(sugerencia);
                     sugeridas.Add(sugerencia);
                 }

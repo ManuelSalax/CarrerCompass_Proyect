@@ -1,20 +1,12 @@
 ﻿using CarrerCompass_Proyect.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarrerCompass_Proyect.Infrastucture.DbData
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
-        {
-        }
+            : base(options) { }
 
         public DbSet<Estudiante> Estudiantes { get; set; }
         public DbSet<TestVocacional> TestsVocacionales { get; set; }
@@ -34,18 +26,25 @@ namespace CarrerCompass_Proyect.Infrastucture.DbData
                 entity.Property(e => e.CorreoElectronico).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.FechaNacimiento).IsRequired();
 
-                entity.HasOne(e => e.ResultadoTest);
-                entity.HasMany(e => e.CarrerasSugeridas);
+                entity.HasMany(e => e.CarrerasSugeridas)
+                      .WithOne(cs => cs.Estudiante)
+                      .HasForeignKey(cs => cs.EstudianteId);
             });
 
-            // Test Vocacional
+            // TestVocacional
             modelBuilder.Entity<TestVocacional>(entity =>
             {
                 entity.ToTable("TestVocacional");
                 entity.HasKey(e => e.Id);
+
                 entity.Property(e => e.FechaRealizacion).IsRequired();
                 entity.Property(e => e.Puntaje).IsRequired();
                 entity.Property(e => e.CodigoResultado).IsRequired().HasMaxLength(50);
+
+                entity.HasOne(tv => tv.Estudiante)
+                      .WithOne()
+                      .HasForeignKey<TestVocacional>(tv => tv.EstudianteId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Carrera
@@ -63,10 +62,17 @@ namespace CarrerCompass_Proyect.Infrastucture.DbData
             modelBuilder.Entity<CarreraSugerida>(entity =>
             {
                 entity.ToTable("CarreraSugerida");
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Puntaje).IsRequired();
+                entity.HasKey(c => c.Id);
 
-                entity.HasOne(cs => cs.Carrera);
+                entity.Property(c => c.Puntaje).IsRequired();
+
+                entity.HasOne(cs => cs.Carrera)
+                      .WithMany()
+                      .HasForeignKey(cs => cs.CarreraId);
+
+                entity.HasOne(cs => cs.Estudiante)
+                      .WithMany(e => e.CarrerasSugeridas)
+                      .HasForeignKey(cs => cs.EstudianteId);
             });
         }
     }

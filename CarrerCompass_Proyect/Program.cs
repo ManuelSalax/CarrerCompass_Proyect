@@ -16,14 +16,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // 🔌 Registrar Repositorios del dominio
 builder.Services.AddScoped<IEstudianteRepositorio, EstudianteRepositorio>();
-builder.Services.AddScoped<ITestVocacionalRepositorio, TestVocacionalRepositorio>();
+
 builder.Services.AddScoped<ICarreraRepositorio, CarreraRepositorio>();
 builder.Services.AddScoped<ICarreraSugeridaRepositorio, CarreraSugeridaRepositorio>();
 
 
 builder.Services.AddScoped<EstudianteService>();
-builder.Services.AddScoped<TestVocacionalService>();
 builder.Services.AddScoped<CarreraService>();
+builder.Services.AddScoped<FormularioVocacionalService>();
+builder.Services.AddScoped<EvaluacionVocacionalService>();
 
 // 🛠️ Construir la app
 var app = builder.Build();
